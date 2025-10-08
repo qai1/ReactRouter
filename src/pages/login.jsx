@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 
 const loginSchema = z.object({
   username: z
     .string()
     .min(1, "Username required!")
     .min(5, "Username must be at least 5 characters"),
+  email: z.email("Email required!"),
   password: z
     .string()
     .min(1, "Password required!")
@@ -31,10 +33,10 @@ export default function Login() {
         <div className="flex flex-col gap-5">
           <form onSubmit={handleSubmit()}>
             <div className="flex flex-col gap-2">
-              <label htmlFor="">Username</label>
-              <input
+              <label htmlFor="">Login</label>
+              <Input
                 type="text"
-                placeholder="Insert your Username"
+                placeholder="Email or Username"
                 className="w-80 h-12 px-3 border-2 border-gray-600 rounded-[5px]"
                 {...register("username")}
               />
@@ -44,9 +46,9 @@ export default function Login() {
             </div>
             <div className="flex flex-col pb-5 gap-2">
               <label htmlFor="">Password</label>
-              <input
+              <Input
                 type="password"
-                placeholder="Insert your Password"
+                placeholder="Enter Password"
                 className="w-80 h-12 px-3 border-2 border-gray-600 rounded-[5px]"
                 {...register("password")}
               />

@@ -5,7 +5,9 @@ export default function NotFound() {
   return (
     <div>
       <Navbar />
-      <h1>gak nemu jir</h1>
+      <div>404 Not Found</div>
+      <p>Halaman tidak ditemukan</p>
+      <p>Balik, ngapain di sini</p>
     </div>
   );
 }
