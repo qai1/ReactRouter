@@ -24,12 +24,12 @@ export default function DataTable({ columns, data }) {
   return (
     <div className="overflow-hidden border ">
       <Table>
-        <TableHeader className="bg-slate-400">
+        <TableHeader className="bg-yellow-300">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead className="text-yellow-600" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(

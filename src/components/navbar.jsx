@@ -12,7 +12,7 @@ export default function Navbar() {
           <Link to="/register">Register</Link>
         </li>
         <li>
-          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/dashboard/user">Dashboard</Link>
         </li>
       </ul>
     </nav>
