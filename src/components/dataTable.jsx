@@ -7,7 +7,6 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -22,14 +21,17 @@ export default function DataTable({ columns, data }) {
   });
 
   return (
-    <div className="overflow-hidden border ">
+    <div className="overflow-hidden border border-gray-200 rounded-lg shadow-sm">
       <Table>
-        <TableHeader className="bg-yellow-300">
+        <TableHeader className="bg-gray-50/80">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow key={headerGroup.id} className="hover:bg-gray-50/80">
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="text-yellow-600" key={header.id}>
+                  <TableHead
+                    className="text-gray-700 font-semibold py-3 px-4 border-b border-gray-200"
+                    key={header.id}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -48,9 +50,10 @@ export default function DataTable({ columns, data }) {
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} className="py-3 px-4 text-gray-600">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -58,8 +61,11 @@ export default function DataTable({ columns, data }) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center text-gray-500 py-8"
+              >
+                No results found.
               </TableCell>
             </TableRow>
           )}
