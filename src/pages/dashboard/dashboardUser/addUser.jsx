@@ -10,7 +10,11 @@ import { FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { addUser } from "@/api/users";
+import { addUser } from "@/utils/api/users";
+import LayoutDashboard from "@/components/layout/layoutDashboard";
+import Swal from "sweetalert2";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const addUserSchema = z.object({
   fullname: z
@@ -42,8 +46,8 @@ function AddUser() {
       username: "",
       password: "",
       email: "",
-      phone_number: 0,
-      age: 0,
+      phone_number: "",
+      age: "",
       address: "",
       role: "user",
     },
@@ -53,185 +57,192 @@ function AddUser() {
     console.log(data);
     try {
       const message = await addUser(data);
-      alert("User berhasil ditambahkan: " + message);
+      Swal.fire({
+        title: "Success",
+        text: "Berhasil menambahkan user!",
+        icon: "success",
+      });
     } catch (error) {
       console.error("Error adding user:", error);
-      alert("Gagal menambahkan user.");
+      Swal.fire({
+        title: "Error",
+        text: "Gagal menambahkan user!",
+        icon: "error",
+      });
     }
   };
 
+  const navigate = useNavigate();
   return (
-    <Card className="max-w-xl mx-auto mt-10 justify-center h-full flex shadow-lg border border-gray-200 rounded-2xl">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-2xl font-semibold text-gray-900 text-center">
-          Formulir Pendaftaran
-        </CardTitle>
-      </CardHeader>
+    <LayoutDashboard>
+      <Card className="max-w-xl mx-auto justify-center h-full flex shadow-lg border border-gray-200 rounded-2xl">
+        <CardHeader className="flex flex-row items-center gap-45 mb-10">
+          <ArrowLeft
+            onClick={() => navigate("/dashboard/user")}
+            className="cursor-pointer"
+          />
+          <CardTitle className="text-2xl font-semibold text-gray-900 text-center">
+            Buat User
+          </CardTitle>
+        </CardHeader>
 
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Nama Lengkap */}
-            <FormField
-              control={form.control}
-              name="fullname"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 font-medium">
-                    Nama Lengkap
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Masukkan Nama Lengkap"
-                      {...field}
-                      className="focus-visible:ring-2 focus-visible:ring-primary/50"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="fullname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-800 font-medium">
+                      Nama Lengkap
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Masukkan Nama Lengkap"
+                        {...field}
+                        className="focus-visible:ring-2 focus-visible:ring-primary/50"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Username */}
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 font-medium">
-                    Username
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Masukkan Username"
-                      {...field}
-                      className="focus-visible:ring-2 focus-visible:ring-primary/50"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-800 font-medium">
+                      Username
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Masukkan Username"
+                        {...field}
+                        className="focus-visible:ring-2 focus-visible:ring-primary/50"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Password */}
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 font-medium">
-                    Password
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Masukkan Password"
-                      {...field}
-                      className="focus-visible:ring-2 focus-visible:ring-primary/50"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-800 font-medium">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Masukkan Password"
+                        {...field}
+                        className="focus-visible:ring-2 focus-visible:ring-primary/50"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Email */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 font-medium">
-                    Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Masukkan Email"
-                      {...field}
-                      className="focus-visible:ring-2 focus-visible:ring-primary/50"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-800 font-medium">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Masukkan Email"
+                        {...field}
+                        className="focus-visible:ring-2 focus-visible:ring-primary/50"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Nomor Telepon */}
-            <FormField
-              control={form.control}
-              name="phone_number"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 font-medium">
-                    Nomor Telepon
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Masukkan Nomor Telepon"
-                      {...field}
-                      className="focus-visible:ring-2 focus-visible:ring-primary/50"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="phone_number"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-800 font-medium">
+                      Nomor Telepon
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Masukkan Nomor Telepon"
+                        {...field}
+                        className="focus-visible:ring-2 focus-visible:ring-primary/50"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Umur */}
-            <FormField
-              control={form.control}
-              name="age"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 font-medium">
-                    Umur
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Masukkan Umur"
-                      {...field}
-                      className="focus-visible:ring-2 focus-visible:ring-primary/50"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="age"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-800 font-medium">
+                      Umur
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Masukkan Umur"
+                        {...field}
+                        className="focus-visible:ring-2 focus-visible:ring-primary/50"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Alamat */}
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 font-medium">
-                    Alamat
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Masukkan Alamat"
-                      {...field}
-                      className="focus-visible:ring-2 focus-visible:ring-primary/50"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-800 font-medium">
+                      Alamat
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Masukkan Alamat"
+                        {...field}
+                        className="focus-visible:ring-2 focus-visible:ring-primary/50"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Submit Button */}
-            <div className="pt-4 flex justify-end">
-              <Button
-                type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-all"
-              >
-                Submit
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              <div className="pt-4 flex justify-end">
+                <Button
+                  type="submit"
+                  className="w-full bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-all"
+                >
+                  Submit
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </LayoutDashboard>
   );
 }
 

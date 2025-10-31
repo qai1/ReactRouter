@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 
 const registerSchema = z.object({
   name: z
@@ -33,7 +34,9 @@ const registerSchema = z.object({
     }),
 });
 
-export default function Login() {
+export default function Register() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -41,13 +44,19 @@ export default function Login() {
   } = useForm({
     resolver: zodResolver(registerSchema),
   });
+
+  const onSubmit = (data) => {
+    console.log("From data:", data);
+    navigate("/dashboard/user");
+  };
+
   return (
     <main className="flex flex-col justify-center items-center h-screen">
       <Navbar />
       <div className="flex flex-col items-center p-5 gap-5 shadow-md rounded-[5px]">
         <h1 className="text-3xl font-bold">Register Form</h1>
         <div className="flex flex-col gap-5">
-          <form onSubmit={handleSubmit()}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-2">
               <label htmlFor="">Name</label>
               <Input

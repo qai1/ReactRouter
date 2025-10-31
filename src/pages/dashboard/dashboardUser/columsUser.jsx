@@ -11,6 +11,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const columns = [
   {
@@ -49,27 +51,33 @@ export const columns = [
     header: "Aksi",
     cell: ({ row }) => {
       const id = row.original.id;
-
-      // handler delete user
+      const navigate = useNavigate();
 
       const handleDeleteUser = async (id) => {
         try {
           await deleteUser(id);
-          alert("Data User Berhasil Dihapus");
-          window.location.reload();
+          Swal.fire({
+            title: "Success",
+            text: "Berhasil menghapus user!",
+            icon: "success",
+          });
         } catch (error) {
-          alert("Gagal Menghapus Data User" + error);
+          Swal.fire({
+            title: "Error",
+            text: "Gagal menghapus user!",
+            icon: "error",
+          });
         }
       };
 
       return (
         <div className="flex flex-row gap-2">
           {/* Button Info */}
-          <button onClick={() => console.log("Ini Butto Info`")}>
+          <button onClick={() => navigate(`/dashboard/user/${id}`)}>
             <Info size={20} />
           </button>
           {/* Button Edit */}
-          <button onClick={() => console.log("Ini Butto Edit")}>
+          <button onClick={() => console.log("Ini Button Edit")}>
             <Pencil size={20} />
           </button>
           {/* Button Delete */}

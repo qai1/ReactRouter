@@ -4,13 +4,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 
 const loginSchema = z.object({
   username: z
     .string()
     .min(1, "Username required!")
     .min(5, "Username must be at least 5 characters"),
-  email: z.email("Email required!"),
   password: z
     .string()
     .min(1, "Password required!")
@@ -18,6 +18,11 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
+  const navigate = useNavigate();
+  const onSubmit = (data) => {
+    console.log(data);
+    navigate("/dashboard/user");
+  };
   const {
     register,
     handleSubmit,
@@ -31,7 +36,7 @@ export default function Login() {
       <div className="flex flex-col items-center p-5 gap-5 shadow-md rounded-[5px]">
         <h1 className="text-3xl font-bold">Login Form</h1>
         <div className="flex flex-col gap-5">
-          <form onSubmit={handleSubmit()}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-2">
               <label htmlFor="">Login</label>
               <Input

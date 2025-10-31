@@ -9,8 +9,8 @@ export default function LayoutDashboard({ children }) {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
         {/* Navbar/Header */}
-        <header className="h-16 bg-white shadow-md flex items-center justify-between px-6">
-          <h1 className="text-lg font-semibold">Dashboard</h1>
+        <header className="h-16 bg-gray-500 shadow-md flex items-center justify-between px-6">
+          <h1 className="text-lg font-semibold text-white">Dashboard</h1>
           <div className="flex items-center gap-4">
             <div className="w-9 h-9 rounded-full bg-yellow-300 flex items-center justify-center">
               <span className="text-sm font-semibold text-yellow-600">QA</span>
